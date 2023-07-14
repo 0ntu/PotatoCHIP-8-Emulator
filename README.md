@@ -1,7 +1,7 @@
 # 🕹️🥔 Potato:CHIP Emulator (Experimental)
 <p align="left">
   <a href="#"><img src="https://img.shields.io/badge/c++-%2300599C.svg?style=flat&logo=c%2B%2B&logoColor=white"></img></a>
-  <a href="http://opensource.org/license/gpl-3-0/"><img src="https://img.shields.io/github/license/0ntu/CHIP-8-Emulator?color=blue"></img></a>
+  <a href="http://opensource.org/license/gpl-3-0/"><img src="https://img.shields.io/github/license/0ntu/PotatoCHIP-8-Emulator?color=blue"></img></a>
   <a href="https://github.com/thibaultmeyer/chip8-emulator/releases"><img src="https://img.shields.io/badge/latest_release-0.0.1-orange.svg"></img></a>
 
   </p>
@@ -9,8 +9,7 @@
 A *(work-in-progress)* interpreter for the CHIP-8 Programming Language written in C++ / SDL2
 
 ---
-
-![image](https://github.com/0ntu/CHIP-8-Emulator/assets/73860587/49624f89-1220-435b-a564-969c8068580b)
+![image](https://github.com/0ntu/PotatoCHIP-8-Emulator/assets/73860587/1134aba0-99d5-4142-8a1f-ea8f61dd0930)
 
 # Background
 *[From Wikipedia](https://en.wikipedia.org/wiki/CHIP-8)*
