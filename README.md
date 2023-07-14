@@ -1,4 +1,4 @@
-# 🕹️🥔 Potato:CHIP-8 Emulator (Experimental)
+# 🕹️🥔 Potato:CHIP Emulator (Experimental)
 <p align="left">
   <a href="#"><img src="https://img.shields.io/badge/c++-%2300599C.svg?style=flat&logo=c%2B%2B&logoColor=white"></img></a>
   <a href="http://opensource.org/license/gpl-3-0/"><img src="https://img.shields.io/github/license/0ntu/CHIP-8-Emulator?color=blue"></img></a>
