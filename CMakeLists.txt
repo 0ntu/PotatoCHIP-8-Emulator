@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.26)
 project(Chip-8-emulator)
-add_executable(chip8
+add_executable(pchip8
   src/main.cpp
   src/chip8.cpp
   src/opcodes.cpp
