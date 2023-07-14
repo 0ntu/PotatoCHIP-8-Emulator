@@ -14,4 +14,4 @@ set(CMAKE_BUILD_TYPE Debug)
 
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
-target_link_libraries(chip8 ${SDL2_LIBRARIES})
+target_link_libraries(pchip8 ${SDL2_LIBRARIES})
