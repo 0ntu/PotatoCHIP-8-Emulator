@@ -1,6 +1,7 @@
 #pragma once
 #include "display.h"
 #include <array>
+#include <stack>
 #include <cstdint>
 #include <string>
 
@@ -57,7 +58,8 @@ private:
   uint16_t I{0};
 
   uint16_t pc{START_EXEC_LOCATION};
-  uint8_t sp{0};
+  std::stack<uint16_t> stack;
+
 
   uint8_t delayTimer{0};
   uint8_t soundTimer{0};

@@ -1,5 +1,6 @@
 #include "chip8.h"
 #include <algorithm>
+#include <cstdlib>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -12,6 +13,9 @@ Chip8::Chip8() {
 
   std::copy(BUILTIN_FONT.begin(), BUILTIN_FONT.end(),
             memory.begin() + FONT_LOCATION);
+
+  // Seed random function
+  srand(time(nullptr));
 }
 
 Chip8::~Chip8() = default;
@@ -30,51 +34,92 @@ void Chip8::cpuCycle() {
     switch (currentOpCode & 0x000F) {
     case 0x0000:
       return opCode_CLS();
-      break;
+    case 0x000E:
+      return opCode_RET();
+    default:
+      throw std::runtime_error(&"Unimplemented Opcode: "[static_cast<int>(currentOpCode)]);
     }
     break;
   case 0x1000:
     return opCode_JP();
-    break;
   case 0x2000:
     return opCode_CALL();
-    break;
   case 0x3000:
     return opCode_SE_VX_KK();
-    break;
   case 0x4000:
     return opCode_SNE_VX_KK();
-    break;
   case 0x5000:
     return opCode_SE_VX_VY();
-    break;
   case 0x6000:
     return opCode_LD_VX_KK();
-    break;
   case 0x7000:
     return opCode_ADD_VX_KK();
-    break;
   case 0x8000:
+    switch (currentOpCode & 0x000F) {
+    case 0x0000:
+      return opCode_LD_VX_VY();
+    case 0x0001:
+      return opCode_OR_VX_VY();
+    case 0x0002:
+      return opCode_AND_VX_VY();
+    case 0x0003:
+      return opCode_XOR_VX_VY();
+    case 0x0004:
+      return opCode_ADD_VX_VY();
+    case 0x0005:
+      return opCode_SUB_VX_VY();
+    case 0x0006:
+      return opCode_SHR_VX();
+    case 0x0007:
+      return opCode_SUBN_VX_VY();
+    case 0x000E:
+      return opCode_SHL_VX();
+    default:
+      throw std::runtime_error(&"Bad Opcode: "[static_cast<int>(currentOpCode)]);
+    }
     break;
   case 0x9000:
     return opCode_SNE_VX_VY();
-    break;
   case 0xA000:
     return opCode_LD_I();
-    break;
   case 0xB000:
     return opCode_JP_V0();
-    break;
   case 0xC000:
     return opCode_RND_VX();
-    break;
   case 0xD000:
     return opCode_DRW_VX_VY();
-    break;
   case 0xE000:
-    break;
+    switch (currentOpCode & 0x00FF) {
+      case 0x009E:
+        return opCode_SKP_VX();
+      case 0x00A1:
+        return opCode_SKNP_VX();
+      default:
+        throw std::runtime_error(&"Bad Opcode: "[static_cast<int>(currentOpCode)]);
+    }
   case 0xF000:
-    break;
+    switch (currentOpCode & 0x00FF) {
+      case 0x0007:
+        return opCode_LD_VX_DT();
+      case 0x000A:
+        return opCode_LD_VX_K();
+      case 0x0015:
+        return opCode_LD_DT_VX();
+      case 0x0018:
+        return opCode_LD_ST_VX();
+      case 0x001E:
+        return opCode_ADD_I_VX();
+      case 0x0029:
+        return opCode_LD_F_VX();
+      case 0x0033:
+        return opCode_LD_B_VX();
+      case 0x0055:
+        return opCode_LD_I_VX();
+      case 0x0065:
+        return opCode_LD_VX_I();
+      default:
+        throw std::runtime_error(&"Bad Opcode: "[static_cast<int>(currentOpCode)]);
+    }
   default:
     throw std::runtime_error(&"Bad Opcode: "[static_cast<int>(currentOpCode)]);
   }
@@ -142,7 +187,6 @@ void Chip8::debug() {
   }
   std::cout << "\nI Register: " << static_cast<int>(I) << "\n\n";
   std::cout << "pc: " << static_cast<int>(pc) << "\n";
-  std::cout << "sp: " << static_cast<int>(sp) << "\n";
 }
 
 } // namespace PChip8

@@ -22,11 +22,20 @@ int main(int argc, char* argv[]) {
                                SDL_TEXTUREACCESS_STREAMING, 64, 32);
 
   PChip8::Chip8 chip8;
+  try {
   chip8.loadROM(argv[1]);
+  } catch (std::exception& e) {
+    std::cerr << "error: " << e.what() << '\n';
+    return EXIT_FAILURE;
+  }
 
   while (true) {
-    chip8.cpuCycle();
-
+    try {
+      chip8.cpuCycle();
+    } catch (std::exception& e) {
+      std::cerr << "error: " << e.what() << '\n';
+      return EXIT_FAILURE;
+    }
     // Process SDL events
     SDL_Event e;
     while (SDL_PollEvent(&e)) {
