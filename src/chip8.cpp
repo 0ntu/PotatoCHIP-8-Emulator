@@ -151,9 +151,16 @@ void Chip8::reset() {
   delayTimer = 0;
   soundTimer = 0;
   display.clear();
+  currentOpCode = 0;
+  pc = START_EXEC_LOCATION;
+  while (!stack.empty()) {
+    stack.pop();
+  }
 
   std::copy(BUILTIN_FONT.begin(), BUILTIN_FONT.end(),
             memory.begin() + FONT_LOCATION);
+
+  drawFlag = true;
 }
 
 void Chip8::printMemory() const {
