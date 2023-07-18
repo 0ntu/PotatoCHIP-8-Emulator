@@ -3,7 +3,19 @@
 #include <array>
 #include <cstdint>
 #include <iostream>
+#include <map>
 #include <thread>
+
+const std::map<int, int> CHIP8_KEYS = {
+    std::make_pair(SDLK_x, 0x0), std::make_pair(SDLK_1, 0x1),
+    std::make_pair(SDLK_2, 0x2), std::make_pair(SDLK_3, 0x3),
+    std::make_pair(SDLK_q, 0x4), std::make_pair(SDLK_w, 0x5),
+    std::make_pair(SDLK_e, 0x6), std::make_pair(SDLK_a, 0x7),
+    std::make_pair(SDLK_s, 0x8), std::make_pair(SDLK_d, 0x9),
+    std::make_pair(SDLK_z, 0xA), std::make_pair(SDLK_c, 0xB),
+    std::make_pair(SDLK_4, 0xC), std::make_pair(SDLK_r, 0xD),
+    std::make_pair(SDLK_f, 0xE), std::make_pair(SDLK_v, 0xF),
+};
 
 int main(int argc, char *argv[]) {
   if (argc != 2) {
@@ -32,13 +44,8 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
+  // begin emulation loop
   while (true) {
-    try {
-      chip8.cpuCycle();
-    } catch (std::exception &e) {
-      std::cerr << "error: " << e.what() << '\n';
-      return EXIT_FAILURE;
-    }
 
     // Process SDL events
     SDL_Event e;
@@ -49,14 +56,33 @@ int main(int argc, char *argv[]) {
       case SDL_WINDOWEVENT:
         chip8.drawFlag = true;
         break;
+      case SDL_KEYUP:
+      default:
+        if (CHIP8_KEYS.contains(e.key.keysym.sym)) {
+          chip8.keyPress[CHIP8_KEYS.at(e.key.keysym.sym)] = false;
+        }
+        break;
       case SDL_KEYDOWN:
         switch (e.key.keysym.sym) {
         case SDLK_F1:
           chip8.reset();
           chip8.loadROM(argv[1]);
           break;
+        default:
+          if (CHIP8_KEYS.contains(e.key.keysym.sym)) {
+            chip8.keyPress[CHIP8_KEYS.at(e.key.keysym.sym)] = true;
+          }
+          break;
         }
+        break;
       }
+    }
+
+    try {
+      chip8.cpuCycle();
+    } catch (std::exception &e) {
+      std::cerr << "error: " << e.what() << '\n';
+      return EXIT_FAILURE;
     }
 
     // If draw occurred, redraw SDL screen
@@ -72,8 +98,9 @@ int main(int argc, char *argv[]) {
       SDL_RenderPresent(renderer);
     }
     // Sleep to slow down emulation speed
-    std::this_thread::sleep_for(std::chrono::microseconds(1200));
+    // std::this_thread::sleep_for(std::chrono::microseconds(1200));
   }
+  // end emulation loop
 
   SDL_Delay(3000);
   SDL_DestroyTexture(tex);

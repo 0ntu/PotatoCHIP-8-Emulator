@@ -51,6 +51,7 @@ public:
   ~Chip8();
 
   bool drawFlag = false;
+  std::array<bool, 16> keyPress = {false};
 
 private:
   std::array<uint8_t, MEMORY_SIZE> memory{0};
