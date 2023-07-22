@@ -37,7 +37,8 @@ void Chip8::cpuCycle() {
     case 0x000E:
       return opCode_RET();
     default:
-      throw std::runtime_error(&"Unimplemented Opcode: "[static_cast<int>(currentOpCode)]);
+      std::cerr << std::hex << currentOpCode; 
+      exit(1);
     }
     break;
   case 0x1000:
@@ -75,7 +76,8 @@ void Chip8::cpuCycle() {
     case 0x000E:
       return opCode_SHL_VX();
     default:
-      throw std::runtime_error(&"Bad Opcode: "[static_cast<int>(currentOpCode)]);
+      std::cerr << std::hex << currentOpCode; 
+      exit(1);
     }
     break;
   case 0x9000:
@@ -95,7 +97,8 @@ void Chip8::cpuCycle() {
       case 0x00A1:
         return opCode_SKNP_VX();
       default:
-        throw std::runtime_error(&"Bad Opcode: "[static_cast<int>(currentOpCode)]);
+        std::cerr << std::hex << currentOpCode; 
+        exit(1);
     }
   case 0xF000:
     switch (currentOpCode & 0x00FF) {
@@ -118,10 +121,12 @@ void Chip8::cpuCycle() {
       case 0x0065:
         return opCode_LD_VX_I();
       default:
-        throw std::runtime_error(&"Bad Opcode: "[static_cast<int>(currentOpCode)]);
+        std::cerr << std::hex << currentOpCode; 
+        exit(1);
     }
   default:
-    throw std::runtime_error(&"Bad Opcode: "[static_cast<int>(currentOpCode)]);
+    std::cerr << std::hex << currentOpCode; 
+    exit(1);
   }
 }
 
